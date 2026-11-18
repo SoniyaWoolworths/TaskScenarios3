@@ -1,0 +1,39 @@
+import { test, expect } from '@playwright/test';
+const allCredentials = [
+  { username: process.env.USERNAME01, password: process.env.PASSWORD01, name: 'User1' },//AR Team Member
+  { username: process.env.USERNAME02, password: process.env.PASSWORD02, name: 'User2' },////AR Team Manager
+];
+
+const usersToTest = [1, 2];
+const credentials = allCredentials.filter((_, index) => usersToTest.includes(index + 1));
+for (const cred of credentials) {
+test(`testMM03_D_${cred.name}`, async ({ page }) => {
+  await page.goto('https://sapus4apps001.wowcorp.com.au:8443/sap/bc/ui2/flp?saml2=disabled');
+  await page.getByRole('textbox', { name: 'User' }).click();
+  await page.getByRole('textbox', { name: 'User' }).fill(cred.username);
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill(cred.password);
+  await page.getByRole('button', { name: 'Log On' }).click();
+  await page.getByRole('tab', { name: 'Accounts Receivable' }).getByLabel('More').click();
+  await page.getByRole('menuitem', { name: 'Master Data' }).click();
+  await page.getByRole('link', { name: 'Display Article' }).nth(0).click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('textbox', { name: 'Article Required' }).fill('1632');
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('textbox', { name: 'Article Required' }).press('Enter');
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('row', { name: 'To select a row, press the space bar. Basic Data 1' }).locator('div').nth(1).click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('gridcell', { name: 'Row selected. To deselect the' }).press('Enter');
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Basic data 2' }).locator('span').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Classification' }).locator('span').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('gridcell', { name: 'Row selected. To deselect the' }).locator('div').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('button', { name: 'OK  Emphasized' }).click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('button', { name: 'Cancel' }).click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('button', { name: 'Previous Screen' }).click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('button', { name: 'Additional Data' }).click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Units of measure' }).locator('span').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Additional GTINs' }).locator('span').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Document data' }).locator('span').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Basic data text' }).locator('span').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Inspection text' }).locator('span').click();
+  await page.locator('iframe[name="application-Material-display-iframe"]').contentFrame().getByRole('tab', { name: 'Internal comment' }).locator('span').click();
+  await page.waitForTimeout(5000);
+});
+}

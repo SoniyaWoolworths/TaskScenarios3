@@ -1,0 +1,3 @@
+H	8100	SB	AUD		DA Reversal Test	DA Reversal Test	08102025	08102025																			
+L	40	430600	ZA005	100	19		0	Correct Wk 27 delta accrual reversal_1			0190							950									682722
+L	50	430600	ZA010	100.00	19			Correct Wk 27 delta accrual reversal_1			0190							901									682722
